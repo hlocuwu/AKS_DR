@@ -1,0 +1,59 @@
+# --- General ---
+.DS_Store
+Thumbs.db
+*.log
+
+# --- IDE/Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Node.js (Frontend & Backend) ---
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# --- Build Outputs ---
+dist/
+build/
+coverage/
+
+# --- Environment Variables (RẤT QUAN TRỌNG: Không bao giờ push file này) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# --- Terraform (Infrastructure) ---
+# Thư mục chứa plugin tải về
+**/.terraform/
+
+# File trạng thái (Chứa secrets và cấu hình hạ tầng thực tế - TUYỆT ĐỐI KHÔNG PUSH)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# File plan và vars chứa mật khẩu
+*.tfplan
+*.tfvars
+.terraform.lock.hcl
+
+# --- Helm Charts ---
+# Các file nén hoặc dependencies tải về
+*.tgz
+*.lock
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- Azure Credentials ---
+# File json chứa thông tin login nếu bạn lỡ lưu vào thư mục code
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.*.json
