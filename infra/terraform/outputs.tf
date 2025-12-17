@@ -38,3 +38,17 @@ output "secondary_ingress_ip" {
 output "traffic_manager_fqdn" {
   value = azurerm_traffic_manager_profile.tm.fqdn
 }
+
+output "postgres_server_fqdn" {
+  description = "The FQDN of the PostgreSQL Server"
+  value       = azurerm_postgresql_flexible_server.postgres.fqdn
+}
+
+output "postgres_database_name" {
+  description = "The name of the default database"
+  value       = azurerm_postgresql_flexible_server_database.default.name
+}
+
+output "postgres_admin_username" {
+  value = azurerm_postgresql_flexible_server.postgres.administrator_login
+}

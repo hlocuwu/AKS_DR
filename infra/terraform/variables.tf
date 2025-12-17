@@ -15,3 +15,15 @@ variable "secondary_location" {
   default     = "centralindia"
   description = "Secondary Region (Passive)"
 }
+
+variable "db_admin_username" {
+  description = "Administrator username for PostgreSQL"
+  type        = string
+  default     = "psqladmin"
+}
+
+variable "db_admin_password" {
+  description = "Administrator password for PostgreSQL"
+  type        = string
+  sensitive   = true 
+}

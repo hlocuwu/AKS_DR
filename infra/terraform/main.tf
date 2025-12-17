@@ -134,3 +134,32 @@ resource "azurerm_traffic_manager_azure_endpoint" "secondary_endpoint" {
   weight             = 100
   target_resource_id = azurerm_public_ip.secondary_ip.id
 }
+
+resource "azurerm_postgresql_flexible_server" "postgres" {
+  name                   = "psql-cloudops-${random_string.suffix.result}"
+  resource_group_name    = azurerm_resource_group.primary_rg.name
+  location               = azurerm_resource_group.primary_rg.location
+  version                = "13"
+
+  administrator_login    = var.db_admin_username
+  administrator_password = var.db_admin_password
+
+  sku_name   = "B_Standard_B1ms"
+  storage_mb = 32768
+
+  backup_retention_days = 7
+}
+
+resource "azurerm_postgresql_flexible_server_database" "default" {
+  name      = "mydb"
+  server_id = azurerm_postgresql_flexible_server.postgres.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure_ips" {
+  name             = "AllowAzureServices"
+  server_id        = azurerm_postgresql_flexible_server.postgres.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
