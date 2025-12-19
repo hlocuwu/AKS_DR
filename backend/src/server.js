@@ -18,12 +18,12 @@ app.use(express.json());
 
 setupSwagger(app);
 
-app.get("/", (req, res) => {
-  res.redirect("/api-docs");
+app.get("/api", (req, res) => {
+  res.redirect("/api/api-docs");
 });
 
-app.use("/boards", boardRoutes);
-app.use("/cards", cardRoutes);
+app.use("/api/boards", boardRoutes);
+app.use("/api/cards", cardRoutes);
 
 // ✅ Start server
 app.listen(PORT, () => {

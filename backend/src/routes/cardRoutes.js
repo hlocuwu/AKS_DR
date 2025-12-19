@@ -86,7 +86,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /cards:
+ * /api/cards:
  *   get:
  *     summary: Lấy tất cả cards
  *     tags: [Cards]
@@ -100,7 +100,7 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Card'
  */
-router.get('/api/', cardController.getAllCards);
+router.get('/api', cardController.getAllCards);
 
 /**
  * @swagger
@@ -122,7 +122,7 @@ router.get('/api/', cardController.getAllCards);
  *             schema:
  *               $ref: '#/components/schemas/Card'
  */
-router.post('/api/', cardController.createCard);
+router.post('/api', cardController.createCard);
 
 /**
  * @swagger

@@ -60,7 +60,7 @@ const router = express.Router();
  *                           type: string
  *                           format: date-time
  */
-router.get('/', boardController.getAllBoards);
+router.get('/api', boardController.getAllBoards);
 
 /**
  * @swagger
@@ -108,7 +108,7 @@ router.get('/', boardController.getAllBoards);
  *                   type: string
  *                   format: date-time
  */
-router.post('/api/', boardController.createBoard);
+router.post('/api', boardController.createBoard);
 
 /**
  * @swagger
