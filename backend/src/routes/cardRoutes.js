@@ -100,11 +100,11 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Card'
  */
-router.get('/', cardController.getAllCards);
+router.get('/api/', cardController.getAllCards);
 
 /**
  * @swagger
- * /cards:
+ * /api/cards:
  *   post:
  *     summary: Tạo một card mới
  *     tags: [Cards]
@@ -122,11 +122,11 @@ router.get('/', cardController.getAllCards);
  *             schema:
  *               $ref: '#/components/schemas/Card'
  */
-router.post('/', cardController.createCard);
+router.post('/api/', cardController.createCard);
 
 /**
  * @swagger
- * /cards/{id}:
+ * /api/cards/{id}:
  *   get:
  *     summary: Lấy thông tin card theo ID
  *     tags: [Cards]
@@ -146,11 +146,11 @@ router.post('/', cardController.createCard);
  *       404:
  *         description: Không tìm thấy card
  */
-router.get('/:id', cardController.getCardById);
+router.get('/api/:id', cardController.getCardById);
 
 /**
  * @swagger
- * /cards/{id}:
+ * /api/cards/{id}:
  *   put:
  *     summary: Cập nhật thông tin card
  *     tags: [Cards]
@@ -176,13 +176,13 @@ router.get('/:id', cardController.getCardById);
  *       404:
  *         description: Không tìm thấy card
  */
-router.put('/:id', cardController.updateCard);
+router.put('/api/:id', cardController.updateCard);
 
-router.put('/:id', cardController.updateCard);
+router.put('/api/:id', cardController.updateCard);
 
 /**
  * @swagger
- * /cards/{id}:
+ * /api/cards/{id}:
  *   delete:
  *     summary: Xóa một card
  *     tags: [Cards]
@@ -198,11 +198,11 @@ router.put('/:id', cardController.updateCard);
  *       404:
  *         description: Không tìm thấy card
  */
-router.delete('/:id', cardController.deleteCard);
+router.delete('/api/:id', cardController.deleteCard);
 
 /**
  * @swagger
- * /cards/board/{boardId}:
+ * /api/cards/board/{boardId}:
  *   get:
  *     summary: Lấy tất cả card theo boardId
  *     tags: [Cards]
@@ -222,6 +222,6 @@ router.delete('/:id', cardController.deleteCard);
  *               items:
  *                 $ref: '#/components/schemas/Card'
  */
-router.get('/board/:boardId', cardController.getCardsByBoard);
+router.get('/api/board/:boardId', cardController.getCardsByBoard);
 
 module.exports = router;
