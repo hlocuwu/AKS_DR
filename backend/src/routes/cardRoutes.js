@@ -86,7 +86,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/cards:
+ * /cards:
  *   get:
  *     summary: Lấy tất cả cards
  *     tags: [Cards]
@@ -100,11 +100,11 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Card'
  */
-router.get('/api', cardController.getAllCards);
+router.get('/', cardController.getAllCards);
 
 /**
  * @swagger
- * /api/cards:
+ * /cards:
  *   post:
  *     summary: Tạo một card mới
  *     tags: [Cards]
@@ -122,11 +122,11 @@ router.get('/api', cardController.getAllCards);
  *             schema:
  *               $ref: '#/components/schemas/Card'
  */
-router.post('/api', cardController.createCard);
+router.post('/', cardController.createCard);
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   get:
  *     summary: Lấy thông tin card theo ID
  *     tags: [Cards]
@@ -146,11 +146,11 @@ router.post('/api', cardController.createCard);
  *       404:
  *         description: Không tìm thấy card
  */
-router.get('/api/:id', cardController.getCardById);
+router.get('/:id', cardController.getCardById);
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   put:
  *     summary: Cập nhật thông tin card
  *     tags: [Cards]
@@ -176,13 +176,11 @@ router.get('/api/:id', cardController.getCardById);
  *       404:
  *         description: Không tìm thấy card
  */
-router.put('/api/:id', cardController.updateCard);
-
-router.put('/api/:id', cardController.updateCard);
+router.put('/:id', cardController.updateCard);
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   delete:
  *     summary: Xóa một card
  *     tags: [Cards]
@@ -198,11 +196,11 @@ router.put('/api/:id', cardController.updateCard);
  *       404:
  *         description: Không tìm thấy card
  */
-router.delete('/api/:id', cardController.deleteCard);
+router.delete('/:id', cardController.deleteCard);
 
 /**
  * @swagger
- * /api/cards/board/{boardId}:
+ * /cards/board/{boardId}:
  *   get:
  *     summary: Lấy tất cả card theo boardId
  *     tags: [Cards]
@@ -222,6 +220,6 @@ router.delete('/api/:id', cardController.deleteCard);
  *               items:
  *                 $ref: '#/components/schemas/Card'
  */
-router.get('/api/board/:boardId', cardController.getCardsByBoard);
+router.get('/cards/board/:boardId', cardController.getCardsByBoard);
 
 module.exports = router;

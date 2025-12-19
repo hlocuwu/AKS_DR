@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/boards:
+ * /boards:
  *   get:
  *     summary: Lấy danh sách tất cả boards
  *     tags: [Boards]
@@ -60,11 +60,11 @@ const router = express.Router();
  *                           type: string
  *                           format: date-time
  */
-router.get('/api', boardController.getAllBoards);
+router.get('/', boardController.getAllBoards);
 
 /**
  * @swagger
- * /api/boards:
+ * /boards:
  *   post:
  *     summary: Tạo mới một board
  *     tags: [Boards]
@@ -108,11 +108,11 @@ router.get('/api', boardController.getAllBoards);
  *                   type: string
  *                   format: date-time
  */
-router.post('/api', boardController.createBoard);
+router.post('/', boardController.createBoard);
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   get:
  *     summary: Lấy thông tin một board theo id
  *     tags: [Boards]
@@ -173,11 +173,11 @@ router.post('/api', boardController.createBoard);
  *       404:
  *         description: Không tìm thấy board
  */
-router.get('/api/:id', boardController.getBoardById);
+router.get('/:id', boardController.getBoardById);
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   put:
  *     summary: Cập nhật thông tin board
  *     tags: [Boards]
@@ -225,11 +225,11 @@ router.get('/api/:id', boardController.getBoardById);
  *       404:
  *         description: Không tìm thấy board
  */
-router.put('/api/:id', boardController.updateBoard);
+router.put('/:id', boardController.updateBoard);
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   delete:
  *     summary: Xóa một board theo ID
  *     tags: [Boards]
@@ -245,6 +245,6 @@ router.put('/api/:id', boardController.updateBoard);
  *       404:
  *         description: Không tìm thấy board
  */
-router.delete('/api/:id', boardController.deleteBoard);
+router.delete('/:id', boardController.deleteBoard);
 
 module.exports = router;
