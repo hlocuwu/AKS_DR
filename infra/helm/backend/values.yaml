@@ -36,6 +36,12 @@ ingress:
         - path: /api
           pathType: Prefix
 
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
 resources:
   limits:
     cpu: 100m
