@@ -116,6 +116,10 @@ resource "azurerm_traffic_manager_profile" "tm" {
     interval_in_seconds          = 30
     timeout_in_seconds           = 9
     tolerated_number_of_failures = 3
+    custom_header {
+      name  = "host"
+      value = "${var.project_name}-tm-${random_string.suffix.result}.trafficmanager.net"
+    }
   }
 }
 
@@ -150,12 +154,12 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
   backup_retention_days = 7
 }
 
-resource "azurerm_postgresql_flexible_server_database" "default" {
-  name      = "mydb"
-  server_id = azurerm_postgresql_flexible_server.postgres.id
-  collation = "en_US.utf8"
-  charset   = "utf8"
-}
+# resource "azurerm_postgresql_flexible_server_database" "default" {
+#  name      = "mydb"
+#  server_id = azurerm_postgresql_flexible_server.postgres.id
+#  collation = "en_US.utf8"
+#  charset   = "utf8"
+# }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure_ips" {
   name             = "AllowAzureServices"
