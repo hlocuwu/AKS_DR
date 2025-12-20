@@ -21,7 +21,7 @@
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "cors": "^2.8.5",
-    "cross-spawn": "^7.0.6",
+    "cross-spawn": "^7.0.5",
     "dotenv": "^17.2.1",
     "express": "^4.21.0",
     "glob": "^10.5.0",
