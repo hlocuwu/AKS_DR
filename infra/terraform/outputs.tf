@@ -52,3 +52,4 @@ output "postgres_server_fqdn" {
 output "postgres_admin_username" {
   value = azurerm_postgresql_flexible_server.postgres.administrator_login
 }
+
