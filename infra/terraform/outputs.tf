@@ -44,10 +44,10 @@ output "postgres_server_fqdn" {
   value       = azurerm_postgresql_flexible_server.postgres.fqdn
 }
 
-output "postgres_database_name" {
-  description = "The name of the default database"
-  value       = azurerm_postgresql_flexible_server_database.default.name
-}
+# output "postgres_database_name" {
+#  description = "The name of the default database"
+#  value       = azurerm_postgresql_flexible_server_database.default.name
+#   }
 
 output "postgres_admin_username" {
   value = azurerm_postgresql_flexible_server.postgres.administrator_login
