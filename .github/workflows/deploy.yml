@@ -13,7 +13,6 @@ env:
   AZ_RG_SECOND: cloudops-practice-secondary-rg
   AKS_NAME_SECOND: cloudops-practice-secondary-aks
   ACR_SERVER: ${{ secrets.ACR_LOGIN_SERVER }} 
-  IMAGE_TAG: ${{ github.event.workflow_run.head_sha || github.sha }}
   NAMESPACE: roadmap-maker
 
 jobs:
@@ -71,8 +70,6 @@ jobs:
           az aks get-credentials --resource-group $AZ_RG_PRI --name $AKS_NAME_PRI --overwrite-existing
           helm upgrade --install frontend ./infra/helm/frontend \
             --namespace $NAMESPACE --create-namespace \
-            --set image.repository=${{ env.ACR_SERVER }}/frontend \
-            --set image.tag=${{ env.IMAGE_TAG }} \
             --set replicaCount=2
 
       - name: Deploy frontend to Secondary
@@ -80,8 +77,6 @@ jobs:
           az aks get-credentials --resource-group $AZ_RG_SECOND --name $AKS_NAME_SECOND --overwrite-existing
           helm upgrade --install frontend ./infra/helm/frontend \
             --namespace $NAMESPACE --create-namespace \
-            --set image.repository=${{ env.ACR_SERVER }}/frontend \
-            --set image.tag=${{ env.IMAGE_TAG }}
 
   deploy-backend:
     needs: [filter, migrate-db]
@@ -100,8 +95,6 @@ jobs:
           az aks get-credentials --resource-group $AZ_RG_PRI --name $AKS_NAME_PRI --overwrite-existing
           helm upgrade --install backend ./infra/helm/backend \
             --namespace $NAMESPACE --create-namespace \
-            --set image.repository=${{ env.ACR_SERVER }}/backend \
-            --set image.tag=${{ env.IMAGE_TAG }} \
             --set replicaCount=2 \
             --set autoscaling.enabled=true \
             --set autoscaling.minReplicas=2 \
@@ -114,6 +107,4 @@ jobs:
           az aks get-credentials --resource-group $AZ_RG_SECOND --name $AKS_NAME_SECOND --overwrite-existing
           helm upgrade --install backend ./infra/helm/backend \
             --namespace $NAMESPACE --create-namespace \
-            --set image.repository=${{ env.ACR_SERVER }}/backend \
-            --set image.tag=${{ env.IMAGE_TAG }} \
             --set env.DATABASE_URL="${{ secrets.DATABASE_URL }}"
