@@ -76,17 +76,19 @@ jobs:
           az aks get-credentials --resource-group $AZ_RG_PRI --name $AKS_NAME_PRI --overwrite-existing
           helm upgrade --install frontend ./infra/helm/frontend \
             --namespace $NAMESPACE --create-namespace \
-            --set replicaCount=2
+            --set replicaCount=2 \
+            --set image.tag=${{ github.event.workflow_run.head_sha }}
 
       - name: Deploy frontend to Secondary
         run: |
           az aks get-credentials --resource-group $AZ_RG_SECOND --name $AKS_NAME_SECOND --overwrite-existing
           helm upgrade --install frontend ./infra/helm/frontend \
             --namespace $NAMESPACE --create-namespace \
+            --set image.tag=${{ github.event.workflow_run.head_sha }}
 
   deploy-backend:
-    needs: [filter]
-    if: needs.filter.outputs.backend == 'true' && (needs.migrate-db.result == 'success' || needs.migrate-db.result == 'skipped')
+    needs: filter
+    if: needs.filter.outputs.backend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -108,11 +110,13 @@ jobs:
             --set autoscaling.minReplicas=2 \
             --set autoscaling.maxReplicas=20 \
             --set autoscaling.targetCPUUtilizationPercentage=50 \
-            --set env.DATABASE_URL="${{ secrets.DATABASE_URL }}"
+            --set env.DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --set image.tag=${{ github.event.workflow_run.head_sha }}
 
       - name: Deploy backend to Secondary
         run: |
           az aks get-credentials --resource-group $AZ_RG_SECOND --name $AKS_NAME_SECOND --overwrite-existing
           helm upgrade --install backend ./infra/helm/backend \
             --namespace $NAMESPACE --create-namespace \
-            --set env.DATABASE_URL="${{ secrets.DATABASE_URL }}"
+            --set env.DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            --set image.tag=${{ github.event.workflow_run.head_sha }}
