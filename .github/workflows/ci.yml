@@ -28,13 +28,10 @@ jobs:
             frontend:
               - 'frontend/**'
 
-  # ====================================================
-  # JOB BACKEND
-  # ====================================================
   build-backend:
     needs: changes
+    if: needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
-    # QUAN TRỌNG: Đã xóa dòng 'if' ở đây để job luôn chạy
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -49,9 +46,7 @@ jobs:
           username: ${{ env.ACR_USER }}
           password: ${{ env.ACR_PASS }}
 
-      # TRƯỜNG HỢP 1: CÓ THAY ĐỔI -> Build mới
-      - name: Build and Push Backend (New Code)
-        if: needs.changes.outputs.backend == 'true'
+      - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
           context: ./backend
@@ -63,38 +58,10 @@ jobs:
           cache-from: type=gha,scope=backend
           cache-to: type=gha,mode=max,scope=backend
 
-      # TRƯỜNG HỢP 2: KHÔNG THAY ĐỔI -> Retag từ bản cũ (Chỉ chạy khi push main)
-      
-      - name: Retag Backend (No Changes)
-        if: needs.changes.outputs.backend != 'true' && github.event_name == 'push'
-        run: |
-          echo "Backend unchanged. Retagging 'latest' to '${{ github.sha }}'..."
-          docker buildx imagetools create \
-            ${{ env.ACR_SERVER }}/backend:latest \
-            --tag ${{ env.ACR_SERVER }}/backend:${{ github.sha }}
-
-      # Quét lỗi bảo mật (Chỉ chạy khi có code mới)
-      - name: Run Trivy Vulnerability Scanner (Backend)
-        if: needs.changes.outputs.backend == 'true' && github.event_name == 'push' 
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: '${{ env.ACR_SERVER }}/backend:${{ github.sha }}'
-          format: 'table'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          scanners: 'vuln'
-        env:
-          TRIVY_USERNAME: ${{ env.ACR_USER }}
-          TRIVY_PASSWORD: ${{ env.ACR_PASS }}
-
-  # ====================================================
-  # JOB FRONTEND
-  # ====================================================
   build-frontend:
     needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
-    # QUAN TRỌNG: Đã xóa dòng 'if' ở đây để job luôn chạy
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -109,9 +76,7 @@ jobs:
           username: ${{ env.ACR_USER }}
           password: ${{ env.ACR_PASS }}
 
-      # TRƯỜNG HỢP 1: CÓ THAY ĐỔI -> Build mới
-      - name: Build and Push Frontend (New Code)
-        if: needs.changes.outputs.frontend == 'true'
+      - name: Build and Push Frontend
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
@@ -122,27 +87,3 @@ jobs:
             ${{ env.ACR_SERVER }}/frontend:${{ github.sha }}
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,mode=max,scope=frontend
-
-      # TRƯỜNG HỢP 2: KHÔNG THAY ĐỔI -> Retag từ bản cũ (Chỉ chạy khi push main)
-      - name: Retag Frontend (No Changes)
-        if: needs.changes.outputs.frontend != 'true' && github.event_name == 'push'
-        run: |
-          echo "Frontend unchanged. Retagging 'latest' to '${{ github.sha }}'..."
-          docker buildx imagetools create \
-            ${{ env.ACR_SERVER }}/frontend:latest \
-            --tag ${{ env.ACR_SERVER }}/frontend:${{ github.sha }}
-
-      # Quét lỗi bảo mật (Chỉ chạy khi có code mới)
-      - name: Run Trivy Vulnerability Scanner (Frontend)
-        if: needs.changes.outputs.frontend == 'true' && github.event_name == 'push'
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: '${{ env.ACR_SERVER }}/frontend:${{ github.sha }}'
-          format: 'table'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-          scanners: 'vuln'
-        env:
-          TRIVY_USERNAME: ${{ env.ACR_USER }}
-          TRIVY_PASSWORD: ${{ env.ACR_PASS }}
