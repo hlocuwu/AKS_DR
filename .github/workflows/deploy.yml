@@ -85,7 +85,7 @@ jobs:
             --namespace $NAMESPACE --create-namespace \
 
   deploy-backend:
-    needs: [filter, migrate-db]
+    needs: [filter]
     if: needs.filter.outputs.backend == 'true' && (needs.migrate-db.result == 'success' || needs.migrate-db.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
