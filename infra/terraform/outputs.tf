@@ -48,7 +48,7 @@ output "postgres_server_fqdn" {
 #  description = "The name of the default database"
 #  value       = azurerm_postgresql_flexible_server_database.default.name
 #   }
-
+# Test
 output "postgres_admin_username" {
   value = azurerm_postgresql_flexible_server.postgres.administrator_login
 }
